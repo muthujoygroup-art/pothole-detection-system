@@ -5,8 +5,12 @@ __pycache__/
 
 # IDE
 .idea/
+.vscode/
 
 # Virtual Environment
+venv/
+.venv/
+env/
 project_venv/
 
 # Data folder (images, datasets - too large)
