@@ -38,7 +38,7 @@ class NumberedCanvas(canvas.Canvas):
         
         # Header (Pages > 1)
         if self._pageNumber > 1:
-            self.drawString(MARGIN, PAGE_HEIGHT - 36, "AI Road Damage & Pothole Detection System | Comprehensive Documentation")
+            self.drawString(MARGIN, PAGE_HEIGHT - 36, "AI Road Damage & Pothole Detection System | Official Technical Documentation")
             self.setStrokeColor(colors.HexColor("#cbd5e1"))
             self.setLineWidth(0.6)
             self.line(MARGIN, PAGE_HEIGHT - 42, MARGIN + USABLE_WIDTH, PAGE_HEIGHT - 42)
@@ -48,7 +48,7 @@ class NumberedCanvas(canvas.Canvas):
         self.setLineWidth(0.6)
         self.line(MARGIN, 44, MARGIN + USABLE_WIDTH, 44)
         
-        self.drawString(MARGIN, 30, "Confidential & Engineering Dossier — Prepared for Evaluation, Deployment & Research")
+        self.drawString(MARGIN, 30, "AI-Powered Pothole Detection & Road Hazard Intelligence System | Engineering Dossier")
         page_text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(MARGIN + USABLE_WIDTH, 30, page_text)
         self.restoreState()
@@ -61,13 +61,14 @@ primary_color = colors.HexColor("#ea580c")    # Amber / Orange
 secondary_color = colors.HexColor("#0f172a")  # Deep Slate Navy
 text_dark = colors.HexColor("#1e293b")        # Charcoal Text
 accent_blue = colors.HexColor("#0284c7")
+accent_green = colors.HexColor("#16a34a")
 
 title_style = ParagraphStyle(
     "DocTitle",
     parent=styles["Normal"],
     fontName="Helvetica-Bold",
-    fontSize=20,
-    leading=24,
+    fontSize=18,
+    leading=22,
     textColor=secondary_color,
     spaceAfter=4,
 )
@@ -79,18 +80,18 @@ subtitle_style = ParagraphStyle(
     fontSize=10,
     leading=14,
     textColor=primary_color,
-    spaceAfter=10,
+    spaceAfter=8,
 )
 
 h1_style = ParagraphStyle(
     "SectionH1",
     parent=styles["Normal"],
     fontName="Helvetica-Bold",
-    fontSize=13,
-    leading=17,
+    fontSize=12,
+    leading=16,
     textColor=secondary_color,
-    spaceBefore=14,
-    spaceAfter=6,
+    spaceBefore=12,
+    spaceAfter=5,
     keepWithNext=True,
 )
 
@@ -98,11 +99,11 @@ h2_style = ParagraphStyle(
     "SectionH2",
     parent=styles["Normal"],
     fontName="Helvetica-Bold",
-    fontSize=10,
-    leading=14,
+    fontSize=9.5,
+    leading=13,
     textColor=primary_color,
-    spaceBefore=9,
-    spaceAfter=4,
+    spaceBefore=8,
+    spaceAfter=3,
     keepWithNext=True,
 )
 
@@ -110,8 +111,8 @@ body_style = ParagraphStyle(
     "BodyDark",
     parent=styles["Normal"],
     fontName="Helvetica",
-    fontSize=8.8,
-    leading=13,
+    fontSize=8.5,
+    leading=12.5,
     textColor=text_dark,
     spaceAfter=5,
 )
@@ -121,15 +122,15 @@ bullet_style = ParagraphStyle(
     parent=body_style,
     leftIndent=12,
     firstLineIndent=-8,
-    spaceAfter=4,
+    spaceAfter=3,
 )
 
 code_style = ParagraphStyle(
     "CodeSnippet",
     parent=styles["Normal"],
     fontName="Courier",
-    fontSize=8,
-    leading=11,
+    fontSize=7.8,
+    leading=10.5,
     textColor=colors.HexColor("#0f172a"),
     backColor=colors.HexColor("#f8fafc"),
     borderColor=colors.HexColor("#cbd5e1"),
@@ -143,15 +144,15 @@ callout_style = ParagraphStyle(
     "CalloutBox",
     parent=styles["Normal"],
     fontName="Helvetica",
-    fontSize=8.5,
-    leading=12.5,
+    fontSize=8.2,
+    leading=12,
     textColor=colors.HexColor("#0f172a"),
     backColor=colors.HexColor("#fff7ed"),
     borderColor=colors.HexColor("#fdba74"),
     borderWidth=0.8,
     borderPadding=6,
     spaceBefore=4,
-    spaceAfter=6,
+    spaceAfter=5,
 )
 
 # Table Cell Styles
@@ -159,8 +160,8 @@ th_style = ParagraphStyle(
     "TableHeader",
     parent=styles["Normal"],
     fontName="Helvetica-Bold",
-    fontSize=8,
-    leading=11,
+    fontSize=7.8,
+    leading=10.5,
     textColor=colors.white,
     alignment=0,
 )
@@ -169,8 +170,8 @@ td_style = ParagraphStyle(
     "TableCell",
     parent=styles["Normal"],
     fontName="Helvetica",
-    fontSize=7.8,
-    leading=11,
+    fontSize=7.5,
+    leading=10.5,
     textColor=text_dark,
     alignment=0,
 )
@@ -179,8 +180,8 @@ td_bold = ParagraphStyle(
     "TableCellBold",
     parent=styles["Normal"],
     fontName="Helvetica-Bold",
-    fontSize=7.8,
-    leading=11,
+    fontSize=7.5,
+    leading=10.5,
     textColor=text_dark,
     alignment=0,
 )
@@ -189,8 +190,8 @@ td_code = ParagraphStyle(
     "TableCellCode",
     parent=styles["Normal"],
     fontName="Courier",
-    fontSize=7.5,
-    leading=10,
+    fontSize=7.2,
+    leading=9.5,
     textColor=colors.HexColor("#0f172a"),
     alignment=0,
 )
@@ -200,7 +201,7 @@ def make_cell(text, style=td_style):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#   PDF 1: COMPREHENSIVE TECHNICAL DOSSIER & ARCHITECTURE
+#   PDF 1: COMPLETE PROJECT STRUCTURE, TECHNOLOGIES & SYSTEM ARCHITECTURE
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_pdf_1(filepath):
@@ -216,205 +217,266 @@ def build_pdf_1(filepath):
 
     # Title & Metadata Banner
     story.append(Paragraph("AI ROAD DAMAGE & POTHOLE DETECTION SYSTEM", title_style))
-    story.append(Paragraph("VOLUME I: COMPLETE TECHNICAL SPECIFICATION, ALGORITHMS & ARCHITECTURE", subtitle_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=primary_color, spaceBefore=0, spaceAfter=10))
+    story.append(Paragraph("TECHNICAL DOSSIER: COMPLETE SYSTEM ARCHITECTURE, TECHNOLOGIES & PROJECT STRUCTURE", subtitle_style))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=primary_color, spaceBefore=0, spaceAfter=8))
 
     # Chapter 1
-    story.append(Paragraph("1. Executive Summary & Problem Formulation", h1_style))
+    story.append(Paragraph("1. Executive Summary & Why This Project Matters", h1_style))
     story.append(Paragraph(
-        "Modern transportation arteries represent critical economic infrastructure, yet they undergo continuous deterioration driven by weather cycling, moisture penetration, soil subsidence, and heavy axle loadings. "
-        "Surface anomalies—specifically potholes, transverse fractures, and alligator fatigue cracking—pose acute safety hazards. "
-        "They cause thousands of vehicular accidents annually, result in catastrophic tire/wheel blowouts, destroy vehicle suspension geometries, and induce costly transit delays across urban and highway corridors.",
+        "Modern surface transportation networks form the bedrock of economic productivity. However, roadway surfaces are subjected to continuous degradation driven by climatic thermal cycles, rain water infiltration, heavy commercial vehicle axle loading, and sub-grade soil subsidence. "
+        "Asphalt failures—principally potholes, longitudinal fractures, and severe alligator fatigue cracking—present severe hazards to motorists and public safety worldwide.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>The Fundamental Challenge:</b> Traditional infrastructure maintenance relies heavily on manual ocular inspections, citizen complaint lines, or specialized laser-profilometer survey vehicles costing upwards of $300,000 per unit. "
-        "These methodologies are reactive, labor-intensive, hazardous to surveyors, and geographically sporadic. By the time municipal authorities identify road failures, defects have expanded into dangerous structural craters.",
+        "<b>The Real-World Crisis:</b> According to global transportation safety statistics, potholes cause tens of thousands of vehicular accidents annually, lead to catastrophic tire blowouts, crack vehicle alloy rims, ruin suspension assemblies, and trigger severe traffic bottlenecks. In two-wheelers, unexpected potholes are a primary cause of fatal collisions.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>The Engineered Solution:</b> This project introduces an end-to-end autonomous <b>Road Damage and Hazard Intelligence System</b>. "
-        "The system fuses high-frequency computer vision (YOLOv8) with a deterministic, rule-based <b>Hazard Intelligence Engine</b>. "
-        "Instead of acting as a passive object detector, this application transforms continuous optical telemetry into immediate vehicle guidance—calculating road distress severity, establishing safe ceiling speeds, and issuing audio alarms to drivers before wheel impact.",
+        "<b>Failure of Traditional Inspection Methods:</b> Municipal authorities traditionally depend on manual ocular road surveys, citizen complaints, or costly laser-profilometer scanning trucks (costing upwards of $300,000 per vehicle). "
+        "These legacy approaches are slow, reactive, labor-intensive, hazardous to surveyors, and leave rural or secondary roads uninspected for years.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>The AI Solution:</b> This project delivers an automated, edge-capable <b>Real-Time Road Hazard Intelligence System</b>. "
+        "By fusing state-of-the-art computer vision (YOLOv8) with WebRTC peer-to-peer camera streaming and a deterministic decision engine, the system detects, classifies, and evaluates potholes live. It translates optical detections into instant driving guidance—assessing road condition, prescribing safe ceiling speeds, and delivering audio alerts.",
         body_style
     ))
 
     # Chapter 2
-    story.append(Paragraph("2. Complete Technology Stack & Specifications", h1_style))
+    story.append(Paragraph("2. Technologies Used & Architectural Justification", h1_style))
     story.append(Paragraph(
-        "The software architecture leverages modern, high-throughput open-source frameworks calibrated for real-time edge and server-side execution:",
+        "Every library and framework in this application was selected to optimize inference framerates, minimize latency, and enable zero-install browser accessibility:",
         body_style
     ))
 
     t1_data = [
-        [make_cell("Subsystem", th_style), make_cell("Technology / Framework", th_style), make_cell("Version", th_style), make_cell("Architectural Role & Technical Purpose", th_style)],
-        [make_cell("Deep Learning Core", td_bold), make_cell("Ultralytics YOLOv8", td_style), make_cell("8.0+", td_code), make_cell("Anchor-free object detection backbone; performs single-stage bounding and classification of road distress.", td_style)],
-        [make_cell("Tensor Framework", td_bold), make_cell("PyTorch / Torchvision", td_style), make_cell("2.1+", td_code), make_cell("GPU-accelerated tensor computations, convolutional graph evaluation, and CUDA inference kernel runtime.", td_style)],
-        [make_cell("Computer Vision", td_bold), make_cell("OpenCV (Headless)", td_style), make_cell("4.10+", td_code), make_cell("Direct camera frame polling, video container demuxing, spatial resizing, BGR/RGB transformations, and HUD overlay rendering.", td_style)],
-        [make_cell("Mathematical Engine", td_bold), make_cell("NumPy", td_style), make_cell("1.26+", td_code), make_cell("Vectorized array manipulations, relative bounding-box area calculations, and coordinate matrix scaling.", td_style)],
-        [make_cell("User Interface", td_bold), make_cell("Streamlit Framework", td_style), make_cell("1.30+", td_code), make_cell("Reactive web dashboard, thread-safe session state handling, widget event loops, and web worker serving.", td_style)],
-        [make_cell("Audio Synthesizer", td_bold), make_cell("Base64 HTML5 Audio", td_style), make_cell("Native", td_code), make_cell("In-memory binary audio playback bypassing OS-level audio blocking via asynchronous browser DOM injection.", td_style)],
-        [make_cell("Styling & UX", td_bold), make_cell("CSS3 / Flexbox / Grid", td_style), make_cell("Modern", td_code), make_cell("High-contrast cyber-slate UI, fluid typography (clamp), responsive media queries, and touch-target scaling.", td_style)],
-        [make_cell("Runtime Platform", td_bold), make_cell("Python Runtime", td_style), make_cell("3.10-3.12", td_code), make_cell("Cross-platform runtime environment supporting Windows 10/11, Linux Ubuntu, and macOS architectures.", td_style)]
+        [make_cell("Technology / Framework", th_style), make_cell("Version", th_style), make_cell("Role in System Architecture", th_style), make_cell("Why Chosen over Alternatives", th_style)],
+        [
+            make_cell("Ultralytics YOLOv8", td_bold),
+            make_cell("8.0+", td_code),
+            make_cell("Core Deep Learning object detection backbone for pothole localization.", td_style),
+            make_cell("Anchor-free architecture with C2f feature extractors provides superior mAP and speed on irregular asphalt contours compared to YOLOv5 or SSD.", td_style)
+        ],
+        [
+            make_cell("PyTorch / Torchvision", td_bold),
+            make_cell("2.1+", td_code),
+            make_cell("Tensor computation backend & neural network inference runtime.", td_style),
+            make_cell("Industry standard ML engine with native CUDA GPU acceleration and optimized CPU kernels via OpenVINO / MKL.", td_style)
+        ],
+        [
+            make_cell("Streamlit Community Framework", td_bold),
+            make_cell("1.30+", td_code),
+            make_cell("Reactive web presentation layer and control panel.", td_style),
+            make_cell("Eliminates complex React/Node.js stacks; provides fast, clean Python-only reactive dashboarding with built-in cloud deployment support.", td_style)
+        ],
+        [
+            make_cell("Streamlit-WebRTC (aiortc + av)", td_bold),
+            make_cell("0.47+", td_code),
+            make_cell("WebRTC peer-to-peer real-time video streaming engine.", td_style),
+            make_cell("Bypasses HTTP overhead; streams live browser camera feed directly to Python worker threads at 30 FPS without script reloading.", td_style)
+        ],
+        [
+            make_cell("OpenCV (opencv-python-headless)", td_bold),
+            make_cell("4.10+", td_code),
+            make_cell("Image matrix transformations, HUD drawing, and video demuxing.", td_style),
+            make_cell("Headless variant avoids heavy X11 GUI dependencies, ensuring flawless execution in Linux containers and cloud servers.", td_style)
+        ],
+        [
+            make_cell("NumPy", td_bold),
+            make_cell("1.26+", td_code),
+            make_cell("Vectorized array operations and geometric area computations.", td_style),
+            make_cell("C-optimized matrix calculations calculate relative bounding-box area ratios in microseconds.", td_style)
+        ],
+        [
+            make_cell("Base64 / HTML5 Audio", td_bold),
+            make_cell("Native", td_code),
+            make_cell("Asynchronous acoustic hazard warning system.", td_style),
+            make_cell("Embeds audio directly into DOM; overcomes browser sandbox restrictions that block automated local file playback.", td_style)
+        ],
+        [
+            make_cell("CSS3 Mobile-First Design", td_bold),
+            make_cell("Modern", td_code),
+            make_cell("Cyber-slate responsive UI with 2x2 grid controls.", td_style),
+            make_cell("Fluid typography and automatic column stacking ensure responsive performance on both 4K desktop monitors and smartphone screens.", td_style)
+        ]
     ]
-    t1 = Table(t1_data, colWidths=[90, 110, 52, 270])
+    t1 = Table(t1_data, colWidths=[110, 48, 174, 190])
     t1.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), secondary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(t1)
 
     story.append(PageBreak())
 
     # Chapter 3
-    story.append(Paragraph("3. Deep Learning Architecture: YOLOv8 Perception Pipeline", h1_style))
+    story.append(Paragraph("3. Complete Project File & Directory Structure Breakdown", h1_style))
     story.append(Paragraph(
-        "The computer vision subsystem utilizes <b>YOLOv8 (You Only Look Once v8)</b>, representing the current benchmark in real-time object detection. "
-        "YOLOv8 introduces several pivotal architectural enhancements over prior generations (YOLOv5, YOLOv7):",
-        body_style
-    ))
-    story.append(Paragraph("• <b>Anchor-Free Detection Mechanism:</b> Rather than relying on predefined anchor boxes that introduce bias toward standardized aspect ratios, YOLOv8 directly predicts the distance from bounding-box center points to object borders. This drastically improves precision when detecting irregularly shaped cracks and potholes.", bullet_style))
-    story.append(Paragraph("• <b>C2f Feature Extraction Modules:</b> The backbone integrates Cross-Stage Partial Bottlenecks with two convolutions (C2f), providing rich multi-scale gradient flow paths that retain high-frequency asphalt texture details.", bullet_style))
-    story.append(Paragraph("• <b>Decoupled Prediction Head:</b> The classification and regression tasks are separated into dedicated sub-networks, ensuring that confidence scoring does not degrade spatial localization accuracy.", bullet_style))
-    story.append(Paragraph("• <b>Task-Aligned Assigner & Loss Formulation:</b> Employs Distribution Focal Loss (DFL) combined with Complete Intersection over Union (CIoU) to aggressively penalize bounding misalignment on small asphalt fractures.", bullet_style))
-
-    story.append(Spacer(1, 4))
-    story.append(Paragraph("<b>Benchmark Road Distress Taxonomy (CRDDC / RDD2022 Dataset Standards):</b>", h2_style))
-    story.append(Paragraph(
-        "The underlying model is fine-tuned on the multi-national Crowdsensing-based Road Damage Dataset, classifying hazards according to standardized structural categories:",
+        "The repository follows a clean, modular micro-architecture separating machine learning logic, presentation layers, assets, and cloud deployment configuration:",
         body_style
     ))
 
-    t_tax = [
-        [make_cell("Class ID", th_style), make_cell("Defect Nomenclature", th_style), make_cell("Physical Asphalt Characteristics", th_style), make_cell("Safety Severity & Risk Profile", th_style)],
-        [make_cell("D00", td_bold), make_cell("Longitudinal Cracks", td_style), make_cell("Cracks running parallel to vehicular traffic flow along wheel tracks.", td_style), make_cell("Minor-to-Moderate. Early indicator of sub-base moisture intrusion.", td_style)],
-        [make_cell("D10", td_bold), make_cell("Transverse Cracks", td_style), make_cell("Cracks extending perpendicular to traffic flow across lane width.", td_style), make_cell("Moderate. Causes repetitive vehicular thumping; expands under freeze-thaw cycles.", td_style)],
-        [make_cell("D20", td_bold), make_cell("Alligator Cracking", td_style), make_cell("Interconnected multi-fracture pattern resembling reptile skin.", td_style), make_cell("High. Indicates catastrophic structural failure of underlying road base.", td_style)],
-        [make_cell("D40", td_bold), make_cell("Potholes / Cavities", td_style), make_cell("Complete bowl-shaped structural displacement of asphalt layer.", td_style), make_cell("Severe / Critical. High probability of rim damage, tire rupture, or sudden loss of control.", td_style)]
+    t_tree = [
+        [make_cell("File / Directory Path", th_style), make_cell("Component Type", th_style), make_cell("Detailed Description & Architectural Responsibilities", th_style)],
+        [
+            make_cell("app/app1.py", td_code),
+            make_cell("Primary Application", td_bold),
+            make_cell("Main Streamlit entry point. Configures page layout, injects responsive CSS, handles WebRTC stream pipeline, runs video playback loops, renders HUD telemetry, and displays diagnosis dashboard.", td_style)
+        ],
+        [
+            make_cell("app/detection.py", td_code),
+            make_cell("Decision Engine", td_bold),
+            make_cell("Contains data classes (<code>Detection</code>, <code>RoadAnalysis</code>), bounding-box severity classifier, and deterministic rule hierarchy for road condition grading and safe speed calculation.", td_style)
+        ],
+        [
+            make_cell("app/__init__.py", td_code),
+            make_cell("Package Marker", td_bold),
+            make_cell("Initializes <code>app</code> as a Python module, allowing cross-directory module resolution across sub-packages.", td_style)
+        ],
+        [
+            make_cell("best.pt", td_code),
+            make_cell("Model Weights (6.2 MB)", td_bold),
+            make_cell("Fine-tuned YOLOv8 neural network weights trained on thousands of annotated real-world pothole images. Loaded dynamically by <code>@st.cache_resource</code>.", td_style)
+        ],
+        [
+            make_cell("assets/alert.wav", td_code),
+            make_cell("Audio Asset", td_bold),
+            make_cell("High-frequency audio waveform (176 KB) fired when the road transitions to Poor condition to alert drivers before impact.", td_style)
+        ],
+        [
+            make_cell("screenshots/", td_code),
+            make_cell("Media Assets", td_bold),
+            make_cell("Contains <code>home.png</code> and <code>demo.png</code> visual references demonstrating app interface and bounding box detection for documentation and README display.", td_style)
+        ],
+        [
+            make_cell("requirements.txt", td_code),
+            make_cell("Python Dependencies", td_bold),
+            make_cell("Specifies exact Python wheels (<code>streamlit</code>, <code>ultralytics</code>, <code>opencv-python-headless</code>, <code>streamlit-webrtc</code>, <code>av</code>, <code>pillow</code>, <code>numpy<2</code>) installed by pip.", td_style)
+        ],
+        [
+            make_cell("packages.txt", td_code),
+            make_cell("System OS Packages", td_bold),
+            make_cell("Instructs Debian/Ubuntu host containers on Streamlit Cloud to install low-level C libraries: <code>libgl1</code>, <code>libglib2.0-0t64</code>, and <code>libgthread-2.0-0</code>.", td_style)
+        ],
+        [
+            make_cell("runtime.txt", td_code),
+            make_cell("Cloud Runtime", td_bold),
+            make_cell("Locks the Streamlit Community Cloud execution environment to <code>python-3.11.9</code>, ensuring zero package deprecation conflicts.", td_style)
+        ],
+        [
+            make_cell(".gitattributes", td_code),
+            make_cell("Git LFS Rules", td_bold),
+            make_cell("Configures Git Large File Storage filters for binary tracking (<code>*.pt</code>, <code>*.wav</code>, <code>*.png</code>).", td_style)
+        ],
+        [
+            make_cell(".gitignore", td_code),
+            make_cell("Version Control Ignore", td_bold),
+            make_cell("Excludes virtual environment folders (<code>venv/</code>), Python bytecode (<code>__pycache__/</code>), and temporary session caches.", td_style)
+        ]
     ]
-    tt = Table(t_tax, colWidths=[55, 115, 192, 160])
-    tt.setStyle(TableStyle([
+    ttree = Table(t_tree, colWidths=[120, 102, 300])
+    ttree.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), primary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
-    story.append(tt)
+    story.append(ttree)
 
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 6))
 
     # Chapter 4
-    story.append(Paragraph("4. Relative Geometric Severity Classification Engine", h1_style))
+    story.append(Paragraph("4. Key Features & Operational Capabilities", h1_style))
     story.append(Paragraph(
-        "Bounding-box detection alone is insufficient for automotive decision-making; a 5-centimeter surface divot requires vastly different driver reaction than an 80-centimeter crater. "
-        "The project implements a <b>relative surface geometry algorithm</b> inside <code>detection.py</code> that computes the ratio of defect bounding area against total optical frame dimensions:",
+        "The system incorporates six advanced operational features engineered for both desktop analysis and in-cabin vehicular deployment:",
         body_style
     ))
-    story.append(Paragraph(
-        "$$\\text{Relative Defect Area (}\\alpha\\text{)} = \\frac{\\text{Box Width} \\times \\text{Box Height}}{\\text{Frame Width} \\times \\text{Frame Height}} = \\frac{|x_2 - x_1| \\times |y_2 - y_1|}{W_{frame} \\times H_{frame}}$$",
-        code_style
-    ))
-    story.append(Paragraph(
-        "Based on extensive empirical road testing, the system establishes three rigorous physical boundary thresholds:",
-        body_style
-    ))
-    story.append(Paragraph("• <b>Minor Severity (\\alpha < 0.005 / 0.5%):</b> Micro-cracks, surface pitting, and shallow dips. Poses no immediate structural threat to standard vehicle suspensions.", bullet_style))
-    story.append(Paragraph("• <b>Moderate Severity (0.005 \\le \\alpha < 0.025 / 0.5% - 2.5%):</b> Established potholes and wide surface fractures. Induces noticeable cabin vibration and requires driver deceleration.", bullet_style))
-    story.append(Paragraph("• <b>Severe Severity (\\alpha \\ge 0.025 / \\ge 2.5%):</b> Large, deep structural craters occupying over 2.5% of total screen geometry. Immediate hazard capable of axle fracture or tire blowout.", bullet_style))
+    story.append(Paragraph("• <b>1. Multi-Input Modality Suite:</b> Operates seamlessly across four input formats: real-time browser camera (WebRTC), high-resolution smartphone snapshots (camera input), pre-recorded dashcam video clips (MP4/AVI), and high-resolution photo uploads (JPG/PNG).", bullet_style))
+    story.append(Paragraph("• <b>2. Zero-Lag 30 FPS Real-Time Streaming:</b> WebRTC integration streams video peer-to-peer directly from smartphone rear cameras. Features 640px auto-scaling, fast 320px YOLO inference, and alternate-frame execution to eliminate CPU lag on cloud servers.", bullet_style))
+    story.append(Paragraph("• <b>3. Relative Geometric Severity Classification:</b> Analyzes the surface area ratio of defects against total camera viewport geometry, grading hazards into Minor (🟢), Moderate (🟡), and Severe (🔴).", bullet_style))
+    story.append(Paragraph("• <b>4. Deterministic Road Hazard Intelligence:</b> Evaluates cumulative defect density to grade overall pavement as <b>Good</b>, <b>Moderate</b>, or <b>Poor</b>.", bullet_style))
+    story.append(Paragraph("• <b>5. Safe Driving Speed Advisory:</b> Continuously computes and displays dynamic maximum safe driving speeds (20 km/h for Poor, 40 km/h for Moderate, 60 km/h for Good).", bullet_style))
+    story.append(Paragraph("• <b>6. Acoustic Warning Guardrails:</b> Plays an audible alarm when road conditions degrade to Poor, featuring a 3.0-second cooldown interval to prevent driver alarm fatigue.", bullet_style))
 
     story.append(PageBreak())
 
     # Chapter 5
-    story.append(Paragraph("5. Deterministic Decision Engine & Vehicle Control Rules", h1_style))
+    story.append(Paragraph("5. Mathematical Engine & Decision Logic", h1_style))
     story.append(Paragraph(
-        "Unlike ambiguous machine learning pipelines that output opaque probability scores, the <b>Road Intelligence Engine</b> operates under a <b>deterministic single-source-of-truth hierarchy</b>. "
-        "Decisions are evaluated sequentially from highest risk to lowest risk. The first matching rule immediately commands the vehicle advisory state:",
+        "Inside <code>detection.py</code>, relative bounding-box geometry is computed to classify individual potholes by physical severity:",
         body_style
     ))
+    story.append(Paragraph(
+        "$$\\text{Relative Defect Area (}\\alpha\\text{)} = \\frac{\\text{Width}_{bbox} \\times \\text{Height}_{bbox}}{\\text{Width}_{frame} \\times \\text{Height}_{frame}} = \\frac{|x_2 - x_1| \\times |y_2 - y_1|}{W_{frame} \\times H_{frame}}$$",
+        code_style
+    ))
 
-    t_rules = [
-        [make_cell("Rule Hierarchy", th_style), make_cell("Mathematical Condition", th_style), make_cell("Road Condition", th_style), make_cell("Safe Ceiling Speed", th_style), make_cell("Operational Driver Advisory & Impact", th_style)],
-        [make_cell("Rule 1 (Critical)", td_bold), make_cell("Count(Severe) ≥ 1", td_code), make_cell("🔴 POOR", td_bold), make_cell("20 km/h", td_bold), make_cell("Immediate hazard alert. High risk of catastrophic mechanical damage. Enforces maximum deceleration.", td_style)],
-        [make_cell("Rule 2 (Density)", td_bold), make_cell("Count(Moderate) ≥ 2", td_code), make_cell("🟡 MODERATE", td_bold), make_cell("40 km/h", td_bold), make_cell("Multiple localized hazards detected. Driver must reduce speed to negotiate uneven pavement.", td_style)],
-        [make_cell("Rule 3 (Scatter)", td_bold), make_cell("Count(Total) ≥ 3", td_code), make_cell("🟡 MODERATE", td_bold), make_cell("40 km/h", td_bold), make_cell("Scattered surface degradation. Even with small individual defects, aggregate road quality is compromised.", td_style)],
-        [make_cell("Rule 4 (Nominal)", td_bold), make_cell("Otherwise", td_code), make_cell("🟢 GOOD", td_bold), make_cell("60 km/h", td_bold), make_cell("Road surface is within safe operating parameters. Standard cruising speeds permitted.", td_style)]
+    t_sev = [
+        [make_cell("Severity Tier", th_style), make_cell("Area Threshold (α)", th_style), make_cell("Bounding Color", th_style), make_cell("Physical Asphalt Characteristics & Impact", th_style)],
+        [make_cell("🟢 Minor Damage", td_bold), make_cell("α < 0.005 (0.5%)", td_code), make_cell("Green (#22c55e, 2px)", td_style), make_cell("Surface cracks, shallow pitting. Negligible suspension vibration.", td_style)],
+        [make_cell("🟡 Moderate Hazard", td_bold), make_cell("0.005 ≤ α < 0.025", td_code), make_cell("Amber (#f59e0b, 3px)", td_style), make_cell("Medium pothole (20-50 cm). Noticeable impact shock; tire wear hazard.", td_style)],
+        [make_cell("🔴 Severe Hazard", td_bold), make_cell("α ≥ 0.025 (2.5%)", td_code), make_cell("Red (#ef4444, 4px)", td_style), make_cell("Deep structural crater (>50 cm). High risk of rim bend, tire blowout, or roll.", td_style)]
     ]
-    tr = Table(t_rules, colWidths=[80, 95, 75, 72, 200])
-    tr.setStyle(TableStyle([
+    tsev = Table(t_sev, colWidths=[95, 95, 110, 222])
+    tsev.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), secondary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
-    story.append(tr)
+    story.append(tsev)
 
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("<b>Deterministic Decision Rules for Road Assessment & Speed Advisory:</b>", h2_style))
 
-    # Chapter 6
-    story.append(Paragraph("6. Telemetry Feedback, Audio Guardrails & Cooldown System", h1_style))
-    story.append(Paragraph(
-        "A critical vulnerability in automated driver-assistance systems is <i>acoustic fatigue</i>—the phenomenon where continuous false or repetitive alarms cause drivers to disable the safety system. "
-        "The application integrates a state-transition audio guardrail algorithm:",
-        body_style
-    ))
-    story.append(Paragraph(
-        "• <b>State-Transition Triggering:</b> The audio alarm (<code>alert.wav</code>) does NOT trigger continuously on every frame containing a pothole. It fires exclusively when the road diagnosis transitions from non-poor to <b>Poor</b> (<code>prev_condition != 'Poor' and current_condition == 'Poor'</code>).",
-        bullet_style
-    ))
-    story.append(Paragraph(
-        "• <b>3.0-Second Cooldown Threshold:</b> A hardware timestamp check enforces a mandatory 3-second minimum silence interval between successive alerts, preventing acoustic chatter during continuous rough road transits.",
-        bullet_style
-    ))
-    story.append(Paragraph(
-        "• <b>Base64 DOM Injection:</b> To circumvent browser security restrictions that block automated local file playback, the audio waveform is pre-cached as a Base64 string and dynamically injected into the Streamlit DOM through an inline HTML5 Audio object.",
-        bullet_style
-    ))
-
-    story.append(Spacer(1, 8))
-
-    # Chapter 7
-    story.append(Paragraph("7. Performance Metrics, Edge Feasibility & Future Scope", h1_style))
-    story.append(Paragraph(
-        "Empirical benchmarks executed on commodity hardware demonstrate exceptional throughput and latency profiles:",
-        body_style
-    ))
-
-    t_perf = [
-        [make_cell("Hardware Platform", th_style), make_cell("Compute Device", th_style), make_cell("Throughput (FPS)", th_style), make_cell("Latency / Frame", th_style), make_cell("Deployment Feasibility", th_style)],
-        [make_cell("Consumer Laptop (Intel i5-11th Gen)", td_bold), make_cell("CPU (OpenVINO / PyTorch)", td_style), make_cell("22 - 32 FPS", td_style), make_cell("31 - 45 ms", td_style), make_cell("Fully capable of real-time dashcam inference.", td_style)],
-        [make_cell("Workstation (NVIDIA RTX 3060)", td_bold), make_cell("GPU (CUDA 12.1)", td_style), make_cell("85 - 120 FPS", td_style), make_cell("8 - 11 ms", td_style), make_cell("Optimal for multi-camera surround surveying.", td_style)],
-        [make_cell("Edge Embedded (Raspberry Pi 5)", td_bold), make_cell("CPU (ARM Cortex-A76)", td_style), make_cell("8 - 14 FPS", td_style), make_cell("70 - 120 ms", td_style), make_cell("Viable with INT8 model quantization / NCNN.", td_style)]
+    t_rules = [
+        [make_cell("Rule Precedence", th_style), make_cell("Logical Condition", th_style), make_cell("Road Condition", th_style), make_cell("Safe Speed", th_style), make_cell("Actionable Safety Warning", th_style)],
+        [make_cell("Rule 1 (Critical)", td_bold), make_cell("Severe Count ≥ 1", td_code), make_cell("🔴 POOR", td_bold), make_cell("20 km/h", td_bold), make_cell("DANGER: Severe potholes detected! Reduce speed immediately to avoid vehicle damage.", td_style)],
+        [make_cell("Rule 2 (Density)", td_bold), make_cell("Moderate Count ≥ 2", td_code), make_cell("🟡 MODERATE", td_bold), make_cell("40 km/h", td_bold), make_cell("CAUTION: Multiple moderate potholes ahead. Maintain safe distance and decelerate.", td_style)],
+        [make_cell("Rule 3 (Scatter)", td_bold), make_cell("Total Count ≥ 3", td_code), make_cell("🟡 MODERATE", td_bold), make_cell("40 km/h", td_bold), make_cell("NOTICE: Scattered surface defects detected. Road quality degraded; drive with care.", td_style)],
+        [make_cell("Rule 4 (Nominal)", td_bold), make_cell("Otherwise", td_code), make_cell("🟢 GOOD", td_bold), make_cell("60 km/h", td_bold), make_cell("Road surface is within safe operating parameters. Standard cruising permitted.", td_style)]
     ]
-    tp = Table(t_perf, colWidths=[120, 105, 85, 75, 137])
-    tp.setStyle(TableStyle([
+    tr = Table(t_rules, colWidths=[85, 95, 75, 65, 202])
+    tr.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), primary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
-    story.append(tp)
+    story.append(tr)
 
-    story.append(Spacer(1, 8))
-    story.append(Paragraph("<b>Future Strategic Expansion:</b>", h2_style))
-    story.append(Paragraph("• <b>Geospatial GIS Integration:</b> Interfacing real-time GPS NMEA logs with Leaflet.js and Folium to plot detected hazards onto interactive city heatmaps.", bullet_style))
-    story.append(Paragraph("• <b>Municipal Work-Order Generation:</b> Automated compilation of identified damage logs into standardized GeoJSON formats for direct municipal ERP integration.", bullet_style))
+    story.append(Spacer(1, 6))
+
+    # Chapter 6
+    story.append(Paragraph("6. End-to-End Perception & Data Flow Pipeline", h1_style))
+    story.append(Paragraph(
+        "The end-to-end telemetry pipeline operates across seven discrete execution phases per frame:",
+        body_style
+    ))
+    story.append(Paragraph("1. <b>Frame Acquisition:</b> Image/video frames are polled from WebRTC video worker, file uploader, or camera snapshot buffer.", bullet_style))
+    story.append(Paragraph("2. <b>Dynamic Scaling & Preprocessing:</b> High-resolution streams are scaled down to 640px maximum width, retaining asphalt features while maintaining CPU throughput.", bullet_style))
+    story.append(Paragraph("3. <b>YOLOv8 Inference:</b> Tensor pass runs at <code>imgsz=320</code> with configurable confidence threshold (default: 0.25).", bullet_style))
+    story.append(Paragraph("4. <b>Bounding Box Parsing:</b> Raw coordinates ($x_1, y_1, x_2, y_2$) and confidence values are mapped to <code>Detection</code> domain objects.", bullet_style))
+    story.append(Paragraph("5. <b>Hazard Evaluation:</b> Decision engine classifies defect severity and evaluates Road Condition rules.", bullet_style))
+    story.append(Paragraph("6. <b>Visual HUD Rendering:</b> OpenCV overlays color-coded bounding boxes, severity labels, confidence scores, top HUD telemetry bar, and condition badges.", bullet_style))
+    story.append(Paragraph("7. <b>Reactive Dashboard Update & Audio Alert:</b> Streamlit updates speedometer and metric cards, triggering Base64 audio if transitioning into Poor condition.", bullet_style))
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Generated PDF 1 at: {filepath}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#   PDF 2: COMPLETE SETUP, CONFIGURATION & USER EXECUTION MANUAL
+#   PDF 2: COMPLETE SETUP, LOCAL EXECUTION & STREAMLIT CLOUD HOSTING GUIDE
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_pdf_2(filepath):
@@ -430,88 +492,137 @@ def build_pdf_2(filepath):
 
     # Title & Metadata Banner
     story.append(Paragraph("AI ROAD DAMAGE & POTHOLE DETECTION SYSTEM", title_style))
-    story.append(Paragraph("VOLUME II: SETUP, INSTALLATION, CONFIGURATION & USER OPERATIONS MANUAL", subtitle_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=primary_color, spaceBefore=0, spaceAfter=10))
+    story.append(Paragraph("OPERATOR MANUAL: PREREQUISITES, LOCAL SETUP, RESOLVING BOTTLENECKS & CLOUD HOSTING", subtitle_style))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=primary_color, spaceBefore=0, spaceAfter=8))
 
     # Chapter 1
-    story.append(Paragraph("1. Hardware & System Prerequisites", h1_style))
+    story.append(Paragraph("1. Tools & Prerequisites Required Before Project Begins", h1_style))
     story.append(Paragraph(
-        "Before deploying the AI Pothole Detection system, ensure your execution environment complies with the following engineering specifications:",
+        "Before setting up the project locally or preparing for cloud deployment, verify that your development workstation satisfies these hardware and software prerequisites:",
         body_style
     ))
 
     t_req = [
-        [make_cell("Subsystem", th_style), make_cell("Minimum Specification", th_style), make_cell("Recommended Specification", th_style), make_cell("Operational Impact / Requirement", th_style)],
-        [make_cell("Processor (CPU)", td_bold), make_cell("Intel Core i3 / Ryzen 3 (4 Cores)", td_style), make_cell("Intel Core i5/i7 or Ryzen 5/7 (6+ Cores)", td_style), make_cell("Executes frame preprocessing, OpenCV matrix decoding, and UI threads.", td_style)],
-        [make_cell("Memory (RAM)", td_bold), make_cell("8 GB DDR4", td_style), make_cell("16 GB DDR4 / DDR5", td_style), make_cell("Accommodates PyTorch model weights, video memory buffers, and frame caches.", td_style)],
-        [make_cell("Graphics (GPU)", td_bold), make_cell("Integrated Intel UHD Graphics", td_style), make_cell("NVIDIA GTX 1650 / RTX Series (4GB+ VRAM)", td_style), make_cell("CUDA acceleration yields 4x to 8x higher inference framerates.", td_style)],
-        [make_cell("Camera Hardware", td_bold), make_cell("Standard 720p USB 2.0 Webcam", td_style), make_cell("1080p 60FPS Wide-Angle Dashcam", td_style), make_cell("Wide-angle field of view ensures early detection of oncoming defects.", td_style)],
-        [make_cell("Disk Storage", td_bold), make_cell("5 GB Free Disk Space", td_style), make_cell("15 GB Free SSD Storage", td_style), make_cell("Storage for virtual environment, PyTorch wheel files, and test media.", td_style)],
-        [make_cell("Operating System", td_bold), make_cell("Windows 10 (64-bit), Ubuntu 20.04", td_style), make_cell("Windows 11 (64-bit) or Ubuntu 22.04 LTS", td_style), make_cell("Full compatibility with Python 3.10-3.12 64-bit architectures.", td_style)]
+        [make_cell("Tool / Requirement", th_style), make_cell("Required Version", th_style), make_cell("Role & Purpose", th_style), make_cell("Verification / Download Command", th_style)],
+        [
+            make_cell("Python Runtime", td_bold),
+            make_cell("3.11.x 64-bit", td_code),
+            make_cell("Executes PyTorch, OpenCV, and Streamlit scripts.", td_style),
+            make_cell("<code>python --version</code> (Download from python.org)", td_style)
+        ],
+        [
+            make_cell("Git CLI", td_bold),
+            make_cell("2.40+", td_code),
+            make_cell("Clones codebase and syncs commits to GitHub.", td_style),
+            make_cell("<code>git --version</code> (Download from git-scm.com)", td_style)
+        ],
+        [
+            make_cell("Git LFS (Large File Storage)", td_bold),
+            make_cell("3.3+", td_code),
+            make_cell("Mandatory for uploading and downloading binary model weights (<code>best.pt</code>).", td_style),
+            make_cell("<code>git lfs --version</code> followed by <code>git lfs install</code>", td_style)
+        ],
+        [
+            make_cell("Visual Studio Code (IDE)", td_bold),
+            make_cell("Latest", td_code),
+            make_cell("Integrated development environment with Python and terminal support.", td_style),
+            make_cell("code.visualstudio.com (Include Python extension)", td_style)
+        ],
+        [
+            make_cell("Hardware (CPU / RAM)", td_bold),
+            make_cell("4+ Cores, 8GB RAM", td_code),
+            make_cell("Runs local deep learning inference and multi-threaded video streaming.", td_style),
+            make_cell("Recommended: 16GB RAM for multi-hour video analysis.", td_style)
+        ],
+        [
+            make_cell("Webcam / Smartphone", td_bold),
+            make_cell("720p / 1080p", td_code),
+            make_cell("Captures real-time road footage for live detection testing.", td_style),
+            make_cell("Any standard USB webcam or mobile browser camera.", td_style)
+        ],
+        [
+            make_cell("Accounts Needed", td_bold),
+            make_cell("Free Tier", td_code),
+            make_cell("GitHub (repository hosting) & Streamlit Cloud (web hosting).", td_style),
+            make_cell("github.com & share.streamlit.io", td_style)
+        ]
     ]
-    trq = Table(t_req, colWidths=[80, 120, 130, 192])
+    trq = Table(t_req, colWidths=[105, 75, 172, 170])
     trq.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), secondary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(trq)
 
     # Chapter 2
-    story.append(Paragraph("2. Step-by-Step Installation & Environment Setup", h1_style))
+    story.append(Paragraph("2. Step-by-Step Local Environment Setup & Execution", h1_style))
     story.append(Paragraph(
-        "Execute the following sequential terminal procedures to build an isolated, conflict-free virtual execution environment:",
+        "Follow these sequential commands in your VS Code terminal to establish an isolated environment and run the project locally:",
         body_style
     ))
 
-    story.append(Paragraph("<b>Step 1: Navigate to Project Directory</b>", h2_style))
-    story.append(Paragraph("cd \"C:\\Users\\HP\\Documents\\Muthu Projects\\PROJECT 04 - AI - POTHOLE - DETECTION - SYSTEM\\AI-Pothole-Detection-System\"", code_style))
+    story.append(Paragraph("<b>Step 1: Clone the GitHub Repository</b>", h2_style))
+    story.append(Paragraph("git clone https://github.com/muthujoygroup-art/pothole-detection-system.git<br/>cd pothole-detection-system", code_style))
 
     story.append(Paragraph("<b>Step 2: Initialize Isolated Virtual Environment (venv)</b>", h2_style))
     story.append(Paragraph("python -m venv venv", code_style))
 
-    story.append(Paragraph("<b>Step 3: Activate Virtual Environment</b>", h2_style))
+    story.append(Paragraph("<b>Step 3: Activate the Virtual Environment</b>", h2_style))
     story.append(Paragraph("• <b>On Windows PowerShell:</b> <code>.\\venv\\Scripts\\activate</code><br/>"
                            "• <b>On Windows Command Prompt (CMD):</b> <code>.\\venv\\Scripts\\activate.bat</code><br/>"
                            "• <b>On macOS / Linux (bash/zsh):</b> <code>source venv/bin/activate</code>", body_style))
 
-    story.append(Paragraph("<b>Step 4: Install Required Packages via Python Binary</b>", h2_style))
+    story.append(Paragraph("<b>Step 4: Install Dependencies via Python Module</b>", h2_style))
     story.append(Paragraph(
-        "Always execute package installation using <code>python -m pip</code> rather than calling <code>pip.exe</code> directly. This guarantees compatibility with Windows security policies:",
+        "Always execute package installation using <code>python -m pip</code> rather than calling <code>pip.exe</code> directly to bypass Windows Application Control blocks:",
         body_style
     ))
     story.append(Paragraph("python -m pip install -r requirements.txt", code_style))
 
-    story.append(Paragraph("<b>Step 5: Verify Model Weights File Location</b>", h2_style))
+    story.append(Paragraph("<b>Step 5: Verify Model Weights File (best.pt)</b>", h2_style))
     story.append(Paragraph(
-        "Confirm that <b>best.pt</b> (approx. 6.2 MB) exists in the root directory. The loader searches for <code>best.pt</code> in project root and the <code>app/</code> directory automatically.",
+        "Confirm that <code>best.pt</code> (approx. 6.2 MB) exists in the project root directory. If Git LFS pointer is small (approx 130 bytes), pull the full file using: <code>git lfs pull</code>.",
         body_style
     ))
+
+    story.append(Paragraph("<b>Step 6: Launch the Streamlit Web Application</b>", h2_style))
+    story.append(Paragraph("python -m streamlit run app/app1.py", code_style))
+
+    story.append(Paragraph("<b>Step 7: Access the Dashboard in Your Browser</b>", h2_style))
+    story.append(Paragraph("• <b>Local PC Access:</b> Open <code>http://localhost:8501</code> in Chrome, Edge, or Safari.<br/>"
+                           "• <b>Mobile Access on Same Wi-Fi:</b> Open your mobile browser and enter the Network URL printed in your terminal: <code>http://[YOUR_PC_IP]:8501</code> (e.g., <code>http://192.168.1.15:8501</code>).", body_style))
 
     story.append(PageBreak())
 
     # Chapter 3
     story.append(Paragraph("3. Resolving Windows-Specific Security & Path Bottlenecks", h1_style))
     story.append(Paragraph(
-        "Windows environments frequently enforce security policies and filesystem legacy limits that trigger runtime errors during Python ML setups. Apply these verified fixes:",
+        "Windows systems frequently enforce security policies or legacy filesystem limits that can trigger setup errors. Apply these verified resolutions:",
         body_style
     ))
 
     story.append(Paragraph("Issue 1: 'Program pip.exe failed to run: Application Control policy blocked this file'", h2_style))
     story.append(Paragraph(
-        "<b>Technical Cause:</b> Windows Defender Application Control (WDAC), AppLocker, or SmartApp features block unverified binary executables generated inside user directories (e.g. <code>venv\\Scripts\\pip.exe</code>).<br/>"
-        "<b>Permanent Fix:</b> Bypass the executable stub by invoking pip directly as a Python module:<br/>"
-        "<code>python -m pip install -r requirements.txt</code>",
+        "<b>Technical Cause:</b> Windows Defender Application Control (WDAC) or SmartApp Control blocks executable binary stubs generated inside virtual environment folders.<br/>"
+        "<b>Permanent Fix:</b> Bypass the stub by executing pip as a module: <code>python -m pip install -r requirements.txt</code>",
         callout_style
     ))
 
-    story.append(Paragraph("Issue 2: 'OSError: [Errno 2] No such file or directory (MAX_PATH Limit)'", h2_style))
+    story.append(Paragraph("Issue 2: 'Execution of scripts is disabled on this system' (PowerShell Error)", h2_style))
     story.append(Paragraph(
-        "<b>Technical Cause:</b> Deeply nested third-party PyTorch wheels (such as <code>cudnn_frontend</code> licenses) exceed the legacy Windows 260-character path limit.<br/>"
-        "<b>Permanent Fix:</b> Launch Windows PowerShell as <b>Administrator</b> and run this command to enable native Win32 long path handling:",
+        "<b>Technical Cause:</b> PowerShell restricts execution of external script files by default.<br/>"
+        "<b>Permanent Fix:</b> In PowerShell, run: <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code>, then activate the venv.",
+        callout_style
+    ))
+
+    story.append(Paragraph("Issue 3: 'OSError: [Errno 2] No such file or directory (MAX_PATH Limit)'", h2_style))
+    story.append(Paragraph(
+        "<b>Technical Cause:</b> Deeply nested third-party packages exceed the default Windows 260-character path limit.<br/>"
+        "<b>Permanent Fix:</b> In an Administrator PowerShell, run this command to enable native Win32 long paths:",
         body_style
     ))
     story.append(Paragraph("New-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\FileSystem' -Name 'LongPathsEnabled' -Value 1 -PropertyType DWORD -Force", code_style))
@@ -519,117 +630,119 @@ def build_pdf_2(filepath):
     story.append(Spacer(1, 6))
 
     # Chapter 4
-    story.append(Paragraph("4. How to Launch and Access the Dashboard", h1_style))
+    story.append(Paragraph("4. Complete Guide: Hosting from GitHub to Streamlit Cloud", h1_style))
     story.append(Paragraph(
-        "To start the application, execute the following command within your activated virtual environment:",
+        "Deploying the project on Streamlit Community Cloud makes it accessible worldwide via a public URL with zero hosting fees. Follow these verified deployment steps:",
         body_style
     ))
-    story.append(Paragraph("python -m streamlit run app/app1.py", code_style))
 
-    story.append(Paragraph("<b>Accessing the Web Interface:</b>", h2_style))
-    story.append(Paragraph("• <b>Local Host Access (This Computer):</b> Open your web browser and navigate to: <code>http://localhost:8501</code>", bullet_style))
-    story.append(Paragraph("• <b>Mobile Device Access (Same Wi-Fi Network):</b> Ensure your smartphone and PC are connected to the same local Wi-Fi router. Open your mobile browser and enter your PC's Network URL: <code>http://[YOUR_LOCAL_IP]:8501</code> (e.g., <code>http://192.168.1.15:8501</code>). The UI automatically adapts to portrait phone displays.", bullet_style))
+    story.append(Paragraph("<b>Step 1: Push Code & LFS Files to GitHub</b>", h2_style))
+    story.append(Paragraph(
+        "Because <code>best.pt</code> and <code>assets/alert.wav</code> are tracked with Git LFS in <code>.gitattributes</code>, a standard <code>git push</code> only uploads text pointers. You must push LFS objects explicitly:",
+        body_style
+    ))
+    story.append(Paragraph("git add .\ngit commit -m \"Prepare for Streamlit Cloud Deployment\"\ngit push origin main\ngit lfs push --all origin main", code_style))
 
-    story.append(Spacer(1, 6))
+    story.append(Paragraph("<b>Step 2: Connect to Streamlit Community Cloud</b>", h2_style))
+    story.append(Paragraph(
+        "1. Open <b>share.streamlit.io</b> in your browser.<br/>"
+        "2. Click <b>Continue with GitHub</b> and sign in with your GitHub account (<code>muthujoygroup-art</code>).<br/>"
+        "3. Grant Streamlit Cloud the necessary OAuth permissions to access your repositories.",
+        body_style
+    ))
 
-    # Chapter 5
-    story.append(Paragraph("5. Detailed Operating Modes & Step-by-Step User Manual", h1_style))
+    story.append(Paragraph("<b>Step 3: Create App & Fill Deployment Coordinates</b>", h2_style))
+    story.append(Paragraph(
+        "Click <b>Create app</b> (top right) → select <b>I already have an app</b>, then enter these exact parameters:",
+        body_style
+    ))
 
-    t_mode = [
-        [make_cell("Inspection Mode", th_style), make_cell("Supported Media Formats", th_style), make_cell("Step-by-Step Operator Procedure", th_style), make_cell("Real-Time Output Generated", th_style)],
+    t_cloud = [
+        [make_cell("Form Field Name", th_style), make_cell("Exact Value to Enter / Select", th_style), make_cell("Critical Notes & Explanation", th_style)],
         [
-            make_cell("📸 Image Upload", td_bold),
-            make_cell(".JPG, .JPEG, .PNG", td_code),
-            make_cell("1. Select 'Image Upload' radio pill.<br/>2. Adjust confidence slider (default 0.25).<br/>3. Drag & drop photo into uploader.<br/>4. Inference executes automatically.", td_style),
-            make_cell("Annotated photo with bounding boxes, FPS latency tag, assessed Road Condition, and Safe Driving Speed.", td_style)
+            make_cell("Repository", td_bold),
+            make_cell("muthujoygroup-art/pothole-detection-system", td_code),
+            make_cell("Select your repository from the dropdown or paste the repository name.", td_style)
         ],
         [
-            make_cell("🎬 Video Upload", td_bold),
-            make_cell(".MP4, .AVI, .MOV", td_code),
-            make_cell("1. Select 'Video Upload' radio pill.<br/>2. Upload dashcam footage file.<br/>3. Video plays frame-by-frame with real-time detection.<br/>4. Click '⏹ Stop Processing' to halt.", td_style),
-            make_cell("Continuous video stream with HUD telemetry, dynamic road condition transitions, and status confirmation.", td_style)
+            make_cell("Branch", td_bold),
+            make_cell("main", td_code),
+            make_cell("Default branch containing all recent UI and WebRTC updates.", td_style)
         ],
         [
-            make_cell("📹 Live Webcam", td_bold),
-            make_cell("Direct USB/Integrated Camera Feed", td_style),
-            make_cell("1. Select 'Live Webcam' radio pill.<br/>2. Click '▶ Start Live Webcam' button.<br/>3. Grant browser camera permissions if prompted.<br/>4. Click '⏹ Stop Live Webcam' when done.", td_style),
-            make_cell("Ultra-low-latency real-time video feed (25-45 FPS), instant road diagnosis cards, and audible audio hazard alarms.", td_style)
+            make_cell("Main file path", td_bold),
+            make_cell("app/app1.py", td_code),
+            make_cell("⚠️ CRITICAL: Streamlit defaults to 'app.py' or 'streamlit_app.py'. You MUST enter 'app/app1.py' or deployment fails with FileNotFoundError.", td_style)
+        ],
+        [
+            make_cell("App URL (Optional)", td_bold),
+            make_cell("pothole-detection.streamlit.app", td_code),
+            make_cell("Custom subdomain for clean, memorable sharing with evaluators and clients.", td_style)
         ]
     ]
-    tmo = Table(t_mode, colWidths=[80, 85, 175, 182])
-    tmo.setStyle(TableStyle([
+    tcl = Table(t_cloud, colWidths=[110, 192, 220])
+    tcl.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), primary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
-    story.append(tmo)
+    story.append(tcl)
 
-    story.append(PageBreak())
-
-    # Chapter 6
-    story.append(Paragraph("6. Interpreting Visual Indicators, HUD Overlays & Alerts", h1_style))
+    story.append(Paragraph("<b>Step 4: Advanced Settings (Python Version)</b>", h2_style))
     story.append(Paragraph(
-        "The interface communicates hazard states through distinct visual, numerical, and auditory modalities:",
+        "Click <b>Advanced settings</b> before deploying and select <b>Python 3.11</b>. This matches your <code>runtime.txt</code> configuration.",
         body_style
     ))
 
-    t_vis = [
-        [make_cell("Visual Indicator", th_style), make_cell("Display Format", th_style), make_cell("Meaning & Physical Road Interpretation", th_style), make_cell("Recommended Driver Response", th_style)],
-        [make_cell("Green Box", td_bold), make_cell("Color: #22c55e (2px line)", td_code), make_cell("Minor crack or shallow divot (<0.5% screen area).", td_style), make_cell("Normal driving. No avoidance maneuver necessary.", td_style)],
-        [make_cell("Amber Box", td_bold), make_cell("Color: #f59e0b (3px line)", td_code), make_cell("Moderate pothole (0.5% - 2.5% screen area).", td_style), make_cell("Maintain grip, moderate deceleration advised.", td_style)],
-        [make_cell("Red Box", td_bold), make_cell("Color: #ef4444 (4px line)", td_code), make_cell("Severe hazard / crater (≥2.5% screen area).", td_style), make_cell("Immediate braking and obstacle avoidance required.", td_style)],
-        [make_cell("Top HUD Bar", td_bold), make_cell("Dark bar on top frame", td_code), make_cell("Displays real-time FPS throughput, active pothole tally, and confidence threshold.", td_style), make_cell("Confirms AI vision engine is operational and tracking.", td_style)],
-        [make_cell("Audio Alarm", td_bold), make_cell("Audible alert.wav beep", td_code), make_cell("Fires only on transitions to Poor road condition.", td_style), make_cell("Provides heads-up acoustic warning to eyes-on-the-road driver.", td_style)]
-    ]
-    tvi = Table(t_vis, colWidths=[75, 110, 185, 152])
-    tvi.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), secondary_color),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-    ]))
-    story.append(tvi)
-
-    story.append(Spacer(1, 8))
-
-    # Chapter 7
-    story.append(Paragraph("7. Comprehensive Troubleshooting & Error Resolution Matrix", h1_style))
+    story.append(Paragraph("<b>Step 5: Deploy & Monitor Build</b>", h2_style))
     story.append(Paragraph(
-        "Consult this troubleshooting matrix to immediately resolve any unexpected environment or operational anomalies:",
+        "Click <b>Deploy!</b>. Streamlit Cloud automatically clones your repository, installs system packages from <code>packages.txt</code>, installs Python dependencies from <code>requirements.txt</code>, and launches your app live.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Chapter 5
+    story.append(Paragraph("5. Streamlit Cloud Troubleshooting Matrix & Error Fixes", h1_style))
+    story.append(Paragraph(
+        "Reference this troubleshooting guide to diagnose and resolve any cloud deployment anomalies:",
         body_style
     ))
 
     t_tb = [
-        [make_cell("Error Symptom", th_style), make_cell("Root Cause Analysis", th_style), make_cell("Exact Corrective Action / Fix", th_style)],
+        [make_cell("Error / Symptom on Cloud", th_style), make_cell("Root Cause Analysis", th_style), make_cell("Exact Corrective Action / Fix", th_style)],
         [
-            make_cell("⚠️ Model not loaded (best.pt not found)", td_bold),
-            make_cell("The YOLOv8 weights file is missing from the working directory.", td_style),
-            make_cell("Verify that <code>best.pt</code> exists in the root project directory or inside the <code>app/</code> directory. Re-clone from repo if missing.", td_style)
+            make_cell("🐙 Failed to download sources<br/>(Smudge error / 404)", td_bold),
+            make_cell("Git LFS objects (<code>best.pt</code>, <code>alert.wav</code>) exist as pointer files on GitHub without the actual binary data.", td_style),
+            make_cell("In local terminal, run: <code>git lfs push --all origin main</code> to upload the binary blobs to GitHub LFS, then reboot the app in Streamlit Cloud.", td_style)
         ],
         [
-            make_cell("❌ Camera not accessible", td_bold),
-            make_cell("Another program (Zoom, Teams, Camera app) is locking the webcam, or device permissions are blocked.", td_style),
-            make_cell("Close all background applications utilizing the webcam. Verify that Windows Privacy Settings allow desktop apps to access the camera.", td_style)
+            make_cell("⚠️ FileNotFoundError:<br/>[Errno 2] 'app.py'", td_bold),
+            make_cell("The Main file path in Streamlit deployment settings was left at default <code>app.py</code>.", td_style),
+            make_cell("Go to Streamlit dashboard → App Settings → General → Change Main file path to <code>app/app1.py</code> and save.", td_style)
         ],
         [
-            make_cell("Video upload yields black screen or crash", td_bold),
-            make_cell("Video codec (e.g. ProRes, H.265) is unsupported by the bundled OpenCV binary.", td_style),
-            make_cell("Re-encode video clip into standard <b>H.264 / MP4</b> format using Handbrake or FFmpeg: <code>ffmpeg -i input.mov -c:v libx264 out.mp4</code>.", td_style)
+            make_cell("❌ Camera not opened on cloud<br/>(cv2.VideoCapture error)", td_bold),
+            make_cell("Cloud virtual machines are headless servers without physical webcam hardware plugged into them.", td_style),
+            make_cell("Use the <b>📹 Live Camera (WebRTC)</b> mode. WebRTC connects your mobile phone or laptop camera through the browser rather than server hardware.", td_style)
         ],
         [
-            make_cell("Streamlit port 8501 already in use", td_bold),
-            make_cell("A previous Streamlit session was not terminated cleanly.", td_style),
-            make_cell("Specify an alternate port during launch: <code>python -m streamlit run app/app1.py --server.port 8502</code>.", td_style)
+            make_cell("You do not have access to this app or it does not exist", td_bold),
+            make_cell("The URL opened in the browser corresponds to a deleted app instance.", td_style),
+            make_cell("Click <b>My apps</b> in the top navigation bar at share.streamlit.io and select the active running app card.", td_style)
         ],
         [
-            make_cell("Audio alarm is silent during Poor road condition", td_bold),
-            make_cell("Web browser prevents autoplay of media before user interacts with the page.", td_style),
-            make_cell("Click anywhere on the web page to grant DOM audio permissions. Ensure your PC volume is unmuted.", td_style)
+            make_cell("Live camera stream lag / stuttering on mobile", td_bold),
+            make_cell("Smartphone sending 1080p/4K frames over saturated mobile network, overloading cloud CPU.", td_style),
+            make_cell("Ensure <code>media_stream_constraints</code> requests 640x480 resolution and model executes at <code>imgsz=320</code> (already configured in latest commit).", td_style)
+        ],
+        [
+            make_cell("App stuck in 'Baking' or building state", td_bold),
+            make_cell("PyTorch or Ultralytics download timed out during initial container setup.", td_style),
+            make_cell("Click the bottom-right three dots (<code>⋮</code>) → select <b>Reboot app</b>. You can monitor progress by opening the <b>Logs</b> drawer.", td_style)
         ]
     ]
     ttb = Table(t_tb, colWidths=[130, 160, 232])
@@ -638,10 +751,57 @@ def build_pdf_2(filepath):
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(ttb)
+
+    story.append(Spacer(1, 8))
+
+    # Chapter 6
+    story.append(Paragraph("6. Operating the App: Visual Indicators & Driver Response", h1_style))
+    story.append(Paragraph(
+        "Once deployed locally or on Streamlit Cloud, drivers and evaluators should interpret the HUD indicators as follows:",
+        body_style
+    ))
+
+    t_op = [
+        [make_cell("Operating Mode", th_style), make_cell("Best Use Case", th_style), make_cell("How to Operate", th_style), make_cell("Generated Output", th_style)],
+        [
+            make_cell("📹 Live Camera (WebRTC)", td_bold),
+            make_cell("Live in-cabin driving dashcam; real-time pothole tracking.", td_style),
+            make_cell("Select mode → tap 'START' → point camera at road. Clean UI without recording clutter.", td_style),
+            make_cell("Real-time 30 FPS video with color-coded bounding boxes, HUD telemetry, and safe speed.", td_style)
+        ],
+        [
+            make_cell("📱 Mobile Snapshot", td_bold),
+            make_cell("Pedestrian or stationary inspection of specific road defects.", td_style),
+            make_cell("Select mode → point camera at pothole → tap shutter button.", td_style),
+            make_cell("High-resolution frozen frame analysis with exact defect severity grading and confidence.", td_style)
+        ],
+        [
+            make_cell("📸 Image Upload", td_bold),
+            make_cell("Post-drive survey evaluation using captured field photos.", td_style),
+            make_cell("Drag & drop JPG/PNG image into the uploader zone.", td_style),
+            make_cell("Immediate bounding box visualization, defect tally, and road safety assessment.", td_style)
+        ],
+        [
+            make_cell("🎬 Video Upload", td_bold),
+            make_cell("Batch dashcam evaluation of entire route recordings.", td_style),
+            make_cell("Upload MP4/AVI file → video evaluates frame-by-frame.", td_style),
+            make_cell("Continuous route assessment with dynamic speed recommendations and audio alerts.", td_style)
+        ]
+    ]
+    top = Table(t_op, colWidths=[95, 115, 142, 170])
+    top.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), secondary_color),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f8fafc")]),
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+    ]))
+    story.append(top)
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Generated PDF 2 at: {filepath}")
@@ -649,9 +809,15 @@ def build_pdf_2(filepath):
 
 if __name__ == "__main__":
     out_dir = r"C:\Users\HP\Documents\Muthu Projects\PROJECT 04 - AI - POTHOLE - DETECTION - SYSTEM\AI-Pothole-Detection-System"
-    pdf1_path = os.path.join(out_dir, "PDF_1_Project_Details_and_Technologies.pdf")
-    pdf2_path = os.path.join(out_dir, "PDF_2_Setup_and_Execution_Guide.pdf")
+    pdf1_path = os.path.join(out_dir, "PDF_1_Project_Structure_and_Technologies.pdf")
+    pdf2_path = os.path.join(out_dir, "PDF_2_Setup_Execution_and_Hosting_Guide.pdf")
     
     build_pdf_1(pdf1_path)
     build_pdf_2(pdf2_path)
-    print("Both upgraded PDFs generated with perfect alignment and comprehensive content!")
+    
+    # Also overwrite the original filenames for compatibility
+    pdf1_legacy = os.path.join(out_dir, "PDF_1_Project_Details_and_Technologies.pdf")
+    pdf2_legacy = os.path.join(out_dir, "PDF_2_Setup_and_Execution_Guide.pdf")
+    build_pdf_1(pdf1_legacy)
+    build_pdf_2(pdf2_legacy)
+    print("All upgraded PDFs generated with perfect alignment and comprehensive content!")
