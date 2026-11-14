@@ -14,6 +14,29 @@ import cv2
 import numpy as np
 import streamlit as st
 
+# ── WebRTC Live Streaming ─────────────────────────────────────────────────────
+try:
+    from streamlit_webrtc import (
+        webrtc_streamer,
+        WebRtcMode,
+        RTCConfiguration,
+        VideoProcessorBase,
+    )
+    import av
+    HAS_WEBRTC = True
+except Exception:
+    HAS_WEBRTC = False
+
+RTC_CONFIGURATION = RTCConfiguration(
+    {
+        "iceServers": [
+            {"urls": ["stun:stun.l.google.com:19302"]},
+            {"urls": ["stun:stun1.l.google.com:19302"]},
+            {"urls": ["stun:stun2.l.google.com:19302"]},
+        ]
+    }
+)
+
 # ── Resolve project root & add to path ────────────────────────────────────────
 _APP_DIR  = os.path.dirname(os.path.abspath(__file__))
 _ROOT_DIR = os.path.abspath(os.path.join(_APP_DIR, ".."))
@@ -141,6 +164,42 @@ def draw_boxes(frame: np.ndarray, analysis: RoadAnalysis,
                 font, fsc, (255, 255, 255), ftk, cv2.LINE_AA)
 
     return frame
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#   WEBRTC VIDEO PROCESSOR (REAL-TIME 30 FPS STREAMING)
+# ══════════════════════════════════════════════════════════════════════════════
+
+if HAS_WEBRTC:
+    class PotholeVideoProcessor(VideoProcessorBase):
+        def __init__(self):
+            self.confidence = 0.25
+            self.last_analysis = None
+            self._prev_t = time.time()
+            self._fps = 0.0
+
+        def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+            img = frame.to_ndarray(format="bgr24")
+            h, w = img.shape[:2]
+            if w > 960:
+                img = cv2.resize(img, (960, int(h * 960 / w)))
+                h, w = img.shape[:2]
+
+            t0 = time.time()
+            dt = max(t0 - self._prev_t, 1e-4)
+            self._fps = 1.0 / dt
+            self._prev_t = t0
+
+            if model is not None:
+                results = model.predict(img, conf=self.confidence, verbose=False)
+                dets = yolo_boxes_to_detections(results[0].boxes, h, w)
+                analysis = run_analysis(dets)
+                self.last_analysis = analysis
+                annotated = draw_boxes(img, analysis, self._fps, self.confidence)
+                return av.VideoFrame.from_ndarray(annotated, format="bgr24")
+
+            return frame
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -556,26 +615,71 @@ section[data-testid="stFileUploadDropzone"] button {
     box-shadow: 0 6px 22px rgba(249, 115, 22, 0.55) !important;
 }
 
+/* WebRTC Video Element Styling */
+div[data-testid="stWebRtc"] video,
+div[data-testid="stWebRtc"] {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    background: #0d111a !important;
+}
+
 /* Mobile Responsiveness */
-@media (max-width: 850px) {
+@media (max-width: 768px) {
     .main .block-container {
-        padding-left: 0.6rem !important;
-        padding-right: 0.6rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        padding-top: 0.5rem !important;
     }
     .app-header {
-        padding: 1.1rem;
-        flex-direction: column;
-        align-items: flex-start;
+        padding: 0.8rem 1rem !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
     }
+    .header-icon { font-size: 1.6rem !important; }
+    .header-title { font-size: 1.15rem !important; }
+    .header-subtitle { display: none !important; }
+    .status-pill { font-size: 0.72rem !important; padding: 4px 10px !important; }
+
+    /* Segmented mode buttons become a neat 2x2 grid on mobile */
     div[role="radiogroup"] {
-        flex-direction: column !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        padding: 4px !important;
     }
     div[role="radiogroup"] > label {
+        min-width: unset !important;
+        padding: 10px 6px !important;
+        font-size: 0.82rem !important;
+    }
+    div[role="radiogroup"] label p {
+        font-size: 0.82rem !important;
+    }
+
+    /* Stack left/right columns vertically so preview and diagnosis take full width */
+    div[data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    [data-testid="column"] {
         width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }
+
+    .sev-legend-wrap {
+        gap: 8px !important;
+        padding: 8px 10px !important;
+        font-size: 0.76rem !important;
+    }
+    .dash-card {
+        padding: 14px 16px !important;
     }
     .empty-preview-card {
-        min-height: 250px;
-        padding: 2rem 1rem;
+        min-height: 200px !important;
+        padding: 1.5rem 1rem !important;
     }
 }
 </style>
@@ -605,7 +709,7 @@ ctrl_col1, ctrl_col2 = st.columns([1.8, 1])
 with ctrl_col1:
     mode = st.radio(
         "Select Inspection Mode:",
-        ["📸 Image Upload", "🎬 Video Upload", "📱 Mobile Live Camera", "📹 Desktop Webcam"],
+        ["📹 Live Camera (WebRTC)", "📱 Mobile Snapshot", "📸 Image Upload", "🎬 Video Upload"],
         horizontal=True
     )
 with ctrl_col2:
@@ -781,12 +885,106 @@ elif "Video" in mode:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#   MODE 3: MOBILE LIVE CAMERA (WORKS 100% ON CLOUD & PHONES)
+#   MODE 3: REAL-TIME LIVE CAMERA (WEBRTC FOR MOBILE & DESKTOP ON CLOUD)
 # ══════════════════════════════════════════════════════════════════════════════
 
-elif "Mobile" in mode:
-    st.markdown('<p style="color:#cbd5e1;font-size:0.9rem;font-weight:600;">Point your smartphone/tablet camera at the road and take a live capture:</p>', unsafe_allow_html=True)
-    cam_picture = st.camera_input("Live Camera Feed", key="mobile_cam")
+elif "Live" in mode:
+    st.markdown(
+        '<p style="color:#cbd5e1;font-size:0.88rem;font-weight:600;margin-bottom:8px;">'
+        '⚡ Point your camera at the road. Live detections & safety grading stream at real-time FPS directly in your browser:'
+        '</p>',
+        unsafe_allow_html=True
+    )
+
+    left, right = st.columns([1.25, 1], gap="large")
+    with left:
+        st.markdown('<p class="stCaption">📹 Live Camera Feed (WebRTC)</p>', unsafe_allow_html=True)
+        if HAS_WEBRTC:
+            webrtc_ctx = webrtc_streamer(
+                key="pothole-live-stream",
+                mode=WebRtcMode.SENDRECV,
+                rtc_configuration=RTC_CONFIGURATION,
+                video_processor_factory=PotholeVideoProcessor,
+                media_stream_constraints={
+                    "video": {
+                        "facingMode": {"ideal": "environment"},
+                        "width": {"ideal": 1280},
+                        "height": {"ideal": 720},
+                    },
+                    "audio": False,
+                },
+                async_processing=True,
+            )
+            if webrtc_ctx.video_processor:
+                webrtc_ctx.video_processor.confidence = confidence
+        else:
+            st.warning("⚠️ WebRTC module not available. Install `streamlit-webrtc` to enable live streaming.")
+            btn_c1, btn_c2 = st.columns([1, 1])
+            with btn_c1:
+                if st.button("▶ Start Local OpenCV Webcam", key="start_wc_local"):
+                    st.session_state.run_webcam    = True
+                    st.session_state.last_analysis = None
+            with btn_c2:
+                if st.button("⏹ Stop Local OpenCV Webcam", key="stop_wc_local"):
+                    st.session_state.run_webcam = False
+
+    with right:
+        st.markdown('<p class="stCaption">📊 Real-Time Road Diagnosis</p>', unsafe_allow_html=True)
+        dash_ph = st.empty()
+        if HAS_WEBRTC and webrtc_ctx and webrtc_ctx.state.playing and webrtc_ctx.video_processor and webrtc_ctx.video_processor.last_analysis:
+            render_dashboard(webrtc_ctx.video_processor.last_analysis, ph=dash_ph)
+        else:
+            render_dashboard(_IDLE, ph=dash_ph)
+
+        st.markdown(
+            '<div style="background:#141926;border:1px solid #28334d;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:0.82rem;color:#94a3b8;line-height:1.5;">'
+            '💡 <strong>Real-Time Stream Active:</strong> Real-time bounding boxes, hazard classification, FPS counter, and road assessment HUD are rendered directly onto the camera feed at 30 FPS.'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+    # Local OpenCV webcam fallback (only used if running offline without WebRTC)
+    if not HAS_WEBRTC and st.session_state.run_webcam and model:
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            st.error("❌ Camera could not be opened. Check webcam connection and permissions.")
+        else:
+            while st.session_state.run_webcam:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                h, w = frame.shape[:2]
+                if w > 1100:
+                    frame = cv2.resize(frame, (1100, int(h * 1100 / w)))
+                    h, w  = frame.shape[:2]
+
+                t0      = time.time()
+                results = model.predict(frame, conf=confidence, verbose=False)
+                fps_val = 1.0 / max(time.time() - t0, 1e-4)
+
+                frame_dets     = yolo_boxes_to_detections(results[0].boxes, h, w)
+                frame_analysis = run_analysis(frame_dets)
+
+                annotated = draw_boxes(frame, frame_analysis, fps_val, confidence)
+
+                frame_ph.image(annotated, channels="BGR", use_container_width=True)
+                render_dashboard(frame_analysis, ph=dash_ph)
+                play_alert(frame_analysis.condition)
+                st.session_state.last_frame = annotated
+
+            cap.release()
+            st.session_state.last_analysis = _IDLE
+            render_dashboard(_IDLE, ph=dash_ph)
+            st.rerun()
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#   MODE 4: MOBILE SNAPSHOT (HIGH-RES PHOTO CAPTURE)
+# ══════════════════════════════════════════════════════════════════════════════
+
+elif "Snapshot" in mode or "Mobile" in mode:
+    st.markdown('<p style="color:#cbd5e1;font-size:0.88rem;font-weight:600;margin-bottom:8px;">Capture a high-resolution photo of road damage from your device camera:</p>', unsafe_allow_html=True)
+    cam_picture = st.camera_input("Road Camera Capture", key="mobile_cam_snap")
 
     left, right = st.columns([1.25, 1], gap="large")
     with left:
@@ -835,74 +1033,6 @@ elif "Mobile" in mode:
         st.session_state.last_analysis = analysis
         play_alert(analysis.condition)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-#   MODE 4: DESKTOP WEBCAM (LOCAL HARDWARE ONLY)
-# ══════════════════════════════════════════════════════════════════════════════
-
-elif "Webcam" in mode:
-    btn_c1, btn_c2 = st.columns([1, 1])
-    with btn_c1:
-        if st.button("▶ Start Live Webcam", key="start_wc"):
-            st.session_state.run_webcam    = True
-            st.session_state.last_analysis = None
-    with btn_c2:
-        if st.button("⏹ Stop Live Webcam", key="stop_wc"):
-            st.session_state.run_webcam = False
-
-    left, right = st.columns([1.25, 1], gap="large")
-    with left:
-        st.markdown('<p class="stCaption">📹 Live Camera Feed</p>', unsafe_allow_html=True)
-        frame_ph = st.empty()
-        perf_ph  = st.empty()
-        if not st.session_state.run_webcam:
-            frame_ph.markdown(_EMPTY_CAM_HTML, unsafe_allow_html=True)
-    with right:
-        st.markdown('<p class="stCaption">📊 Real-Time Road Diagnosis</p>', unsafe_allow_html=True)
-        dash_ph = st.empty()
-        if st.session_state.last_analysis is not None:
-            render_dashboard(st.session_state.last_analysis, ph=dash_ph)
-        else:
-            render_dashboard(_IDLE, ph=dash_ph)
-
-    if st.session_state.run_webcam and model:
-        cap = cv2.VideoCapture(0)
-        if not cap.isOpened():
-            st.error("❌ Camera could not be opened. Check webcam connection and permissions.")
-        else:
-            while st.session_state.run_webcam:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                h, w = frame.shape[:2]
-                if w > 1100:
-                    frame = cv2.resize(frame, (1100, int(h * 1100 / w)))
-                    h, w  = frame.shape[:2]
-
-                t0      = time.time()
-                results = model.predict(frame, conf=confidence, verbose=False)
-                fps_val = 1.0 / max(time.time() - t0, 1e-4)
-
-                frame_dets     = yolo_boxes_to_detections(results[0].boxes, h, w)
-                frame_analysis = run_analysis(frame_dets)
-
-                annotated = draw_boxes(frame, frame_analysis, fps_val, confidence)
-
-                frame_ph.image(annotated, channels="BGR", use_container_width=True)
-                perf_ph.markdown(
-                    f'<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">'
-                    f'<span class="fps-tag">⚡ {fps_val:.1f} FPS</span>'
-                    f'<span class="fps-tag">🎯 Conf: {confidence:.2f}</span>'
-                    f'</div>', unsafe_allow_html=True)
-
-                render_dashboard(frame_analysis, ph=dash_ph)
-                play_alert(frame_analysis.condition)
-                st.session_state.last_frame = annotated
-
-            cap.release()
-            st.session_state.last_analysis = _IDLE
-            render_dashboard(_IDLE, ph=dash_ph)
-            st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
 #   MINIMAL CLEAN FOOTER
