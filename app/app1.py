@@ -177,25 +177,34 @@ if HAS_WEBRTC:
             self.last_analysis = None
             self._prev_t = time.time()
             self._fps = 0.0
+            self._frame_count = 0
+            self._cached_analysis = None
 
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             img = frame.to_ndarray(format="bgr24")
             h, w = img.shape[:2]
-            if w > 960:
-                img = cv2.resize(img, (960, int(h * 960 / w)))
+
+            # Fast downscale if camera sends high-res stream (saves CPU & bandwidth)
+            if w > 640:
+                scale = 640.0 / w
+                img = cv2.resize(img, (640, int(h * scale)))
                 h, w = img.shape[:2]
 
-            t0 = time.time()
-            dt = max(t0 - self._prev_t, 1e-4)
+            self._frame_count += 1
+            now = time.time()
+            dt = max(now - self._prev_t, 1e-4)
             self._fps = 1.0 / dt
-            self._prev_t = t0
+            self._prev_t = now
 
             if model is not None:
-                results = model.predict(img, conf=self.confidence, verbose=False)
-                dets = yolo_boxes_to_detections(results[0].boxes, h, w)
-                analysis = run_analysis(dets)
-                self.last_analysis = analysis
-                annotated = draw_boxes(img, analysis, self._fps, self.confidence)
+                # Infer every 2nd frame at fast 320px for silky-smooth 0-lag real-time detection on CPU
+                if self._frame_count % 2 == 0 or self._cached_analysis is None:
+                    results = model.predict(img, imgsz=320, conf=self.confidence, verbose=False)
+                    dets = yolo_boxes_to_detections(results[0].boxes, h, w)
+                    self._cached_analysis = run_analysis(dets)
+                    self.last_analysis = self._cached_analysis
+
+                annotated = draw_boxes(img, self._cached_analysis, self._fps, self.confidence)
                 return av.VideoFrame.from_ndarray(annotated, format="bgr24")
 
             return frame
@@ -615,13 +624,42 @@ section[data-testid="stFileUploadDropzone"] button {
     box-shadow: 0 6px 22px rgba(249, 115, 22, 0.55) !important;
 }
 
-/* WebRTC Video Element Styling */
-div[data-testid="stWebRtc"] video,
+/* Clean Streamlined WebRTC Display — Hide all unnecessary toggles/dropdowns */
 div[data-testid="stWebRtc"] {
+    background: #141926 !important;
+    border: 1px solid #28334d !important;
     border-radius: 14px !important;
+    padding: 8px !important;
     overflow: hidden !important;
     width: 100% !important;
-    background: #0d111a !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+div[data-testid="stWebRtc"] video {
+    border-radius: 10px !important;
+    width: 100% !important;
+    max-height: 480px !important;
+    object-fit: cover !important;
+    background: #090c13 !important;
+}
+div[data-testid="stWebRtc"] button {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+    font-size: 0.95rem !important;
+    padding: 10px 32px !important;
+    margin: 8px auto !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45) !important;
+}
+div[data-testid="stWebRtc"] select,
+div[data-testid="stWebRtc"] label,
+div[data-testid="stWebRtc"] input[type="checkbox"],
+div[data-testid="stWebRtc"] small {
+    display: none !important;
 }
 
 /* Mobile Responsiveness */
@@ -908,11 +946,15 @@ elif "Live" in mode:
                 media_stream_constraints={
                     "video": {
                         "facingMode": {"ideal": "environment"},
-                        "width": {"ideal": 1280},
-                        "height": {"ideal": 720},
+                        "width": {"ideal": 640, "max": 640},
+                        "height": {"ideal": 480, "max": 480},
+                        "frameRate": {"ideal": 24, "max": 30},
                     },
                     "audio": False,
                 },
+                sendback_audio=False,
+                media_toggle_controls=False,
+                video_receiver_size=1,
                 async_processing=True,
             )
             if webrtc_ctx.video_processor:
